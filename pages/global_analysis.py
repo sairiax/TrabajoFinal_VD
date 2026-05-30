@@ -14,6 +14,11 @@ def inject_custom_css():
             font-family: 'Outfit', sans-serif !important;
         }
         
+        /* Asegurar que los iconos de Streamlit no se vean afectados por el cambio de fuente */
+        .stIconMaterial, [data-testid="stIconMaterial"], [class*="st-Icon"], [class*="stIcon"] {
+            font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons' !important;
+        }
+        
         /* Título principal con degradado cromático */
         .title-gradient {
             background: linear-gradient(90deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
@@ -106,7 +111,15 @@ if not df.empty:
         step=1
     )
 
-    # 2. Selector de la variable a visualizar
+    # 2. Selector de tipo de proyección del mapa
+    map_projection_lbl = st.sidebar.selectbox(
+        "Proyección del mapa",
+        options=["🗺️ Plano (Equirrectangular)", "🌐 Globo 3D (Ortográfico)"],
+        index=0
+    )
+    map_projection = "equirectangular" if "Plano" in map_projection_lbl else "orthographic"
+
+    # 3. Selector de la variable a visualizar
     metric_dict = {
         "Puntaje de Felicidad": "score",
         "Contribución del PIB": "gdp",
@@ -172,56 +185,124 @@ if not df.empty:
             </div>
         """, unsafe_allow_html=True)
 
-    # --- MAPA DE COROPLETAS ---
-    st.markdown("<h3 style='margin-top: 1.5rem; margin-bottom: 0.5rem;'>🗺️ Mapa Global de Coropletas</h3>", unsafe_allow_html=True)
+    # --- MAPA DE COROPLETAS CON TABS ---
+    st.markdown("<h3 style='margin-top: 1.5rem; margin-bottom: 0.5rem;'>🗺️ Visualización de Mapas Interactivos</h3>", unsafe_allow_html=True)
     
-    # Crear mapa de coropletas interactivo con Plotly Express
-    fig_map = px.choropleth(
-        df_year,
-        locations="iso_alpha",
-        color=selected_metric_col,
-        hover_name="country",
-        hover_data={
-            "iso_alpha": False,
-            "score": ":.2f",
-            "gdp": ":.2f",
-            "social": ":.2f",
-            "health": ":.2f",
-            "freedom": ":.2f",
-            "generosity": ":.2f",
-            "trust": ":.2f"
-        },
-        color_continuous_scale=px.colors.sequential.Plasma,
-        title=None
-    )
+    tab_map1, tab_map2 = st.tabs(["🌍 Estado Actual", "📈 Variación Histórica (Delta)"])
     
-    # Personalización del estilo del mapa para acoplarse al tema oscuro de la aplicación
-    fig_map.update_layout(
-        geo=dict(
-            showframe=False,
-            showcoastlines=True,
-            projection_type='equirectangular',
-            bgcolor='rgba(0,0,0,0)',
-            landcolor='#1f2937',
-            lakecolor='#0e1117',
-            coastlinecolor='#4b5563',
-            showland=True,
-            showlakes=True,
-            subunitcolor='#4b5563'
-        ),
-        margin=dict(l=0, r=0, t=0, b=0),
-        coloraxis=dict(
-            colorbar=dict(
-                title=dict(text=selected_metric_lbl, side='right', font=dict(size=12, color='#9ca3af')),
-                tickfont=dict(color='#9ca3af')
+    with tab_map1:
+        st.markdown(f"<p style='color: #9ca3af; font-size: 0.95rem; margin-bottom: 1rem;'>Visualización interactiva de <b>{selected_metric_lbl}</b> en el año <b>{selected_year}</b>. Puedes interactuar directamente con el mapa para ver los detalles.</p>", unsafe_allow_html=True)
+        
+        # Crear mapa de coropletas interactivo con Plotly Express
+        fig_map = px.choropleth(
+            df_year,
+            locations="iso_alpha",
+            color=selected_metric_col,
+            hover_name="country",
+            hover_data={
+                "iso_alpha": False,
+                "score": ":.2f",
+                "gdp": ":.2f",
+                "social": ":.2f",
+                "health": ":.2f",
+                "freedom": ":.2f",
+                "generosity": ":.2f",
+                "trust": ":.2f"
+            },
+            color_continuous_scale=px.colors.sequential.Plasma,
+            title=None
+        )
+        
+        # Personalización del estilo del mapa
+        fig_map.update_layout(
+            geo=dict(
+                showframe=False,
+                showcoastlines=True,
+                projection_type=map_projection,
+                bgcolor='rgba(0,0,0,0)',
+                landcolor='#1f2937',
+                lakecolor='#0e1117',
+                coastlinecolor='#4b5563',
+                showland=True,
+                showlakes=True,
+                subunitcolor='#4b5563'
+            ),
+            margin=dict(l=0, r=0, t=0, b=0),
+            coloraxis=dict(
+                colorbar=dict(
+                    title=dict(text=selected_metric_lbl, side='right', font=dict(size=12, color='#9ca3af')),
+                    tickfont=dict(color='#9ca3af')
+                )
+            ),
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            height=550
+        )
+        
+        st.plotly_chart(fig_map, use_container_width=True, theme="streamlit")
+        
+    with tab_map2:
+        st.markdown(f"<p style='color: #9ca3af; font-size: 0.95rem; margin-bottom: 1rem;'>Compara y analiza de forma interactiva la variación de <b>{selected_metric_lbl}</b> entre dos años seleccionados.</p>", unsafe_allow_html=True)
+        
+        col_d1, col_d2 = st.columns(2)
+        with col_d1:
+            start_year = st.selectbox("Año inicial", options=available_years, index=0)
+        with col_d2:
+            end_year = st.selectbox("Año final", options=available_years, index=len(available_years)-1)
+            
+        if start_year >= end_year:
+            st.warning("Selecciona un año inicial que sea estrictamente anterior al año final para poder ver la evolución de forma correcta.")
+        else:
+            # Calcular delta
+            df_start = df[df['year'] == start_year][['country', 'iso_alpha', selected_metric_col]]
+            df_end = df[df['year'] == end_year][['country', 'iso_alpha', selected_metric_col]]
+            df_delta = pd.merge(df_start, df_end, on=['country', 'iso_alpha'], suffixes=('_start', '_end'))
+            df_delta['delta'] = df_delta[selected_metric_col + '_end'] - df_delta[selected_metric_col + '_start']
+            
+            # Crear mapa de delta con escala de color divergente
+            fig_delta = px.choropleth(
+                df_delta,
+                locations="iso_alpha",
+                color="delta",
+                hover_name="country",
+                hover_data={
+                    "iso_alpha": False,
+                    selected_metric_col + '_start': ":.2f",
+                    selected_metric_col + '_end': ":.2f",
+                    "delta": ":.2f"
+                },
+                color_continuous_scale=px.colors.diverging.RdYlGn,
+                color_continuous_midpoint=0,
+                title=None
             )
-        ),
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        height=550
-    )
-    
-    st.plotly_chart(fig_map, use_container_width=True, theme="streamlit")
+            
+            fig_delta.update_layout(
+                geo=dict(
+                    showframe=False,
+                    showcoastlines=True,
+                    projection_type=map_projection,
+                    bgcolor='rgba(0,0,0,0)',
+                    landcolor='#1f2937',
+                    lakecolor='#0e1117',
+                    coastlinecolor='#4b5563',
+                    showland=True,
+                    showlakes=True,
+                    subunitcolor='#4b5563'
+                ),
+                margin=dict(l=0, r=0, t=0, b=0),
+                coloraxis=dict(
+                    colorbar=dict(
+                        title=dict(text="Variación (Delta)", side='right', font=dict(size=12, color='#9ca3af')),
+                        tickfont=dict(color='#9ca3af')
+                    )
+                ),
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                height=550
+            )
+            
+            st.plotly_chart(fig_delta, use_container_width=True, theme="streamlit")
+
 
     st.markdown("<hr style='border: 0.5px solid rgba(255,255,255,0.08); margin: 2rem 0;' />", unsafe_allow_html=True)
 
@@ -295,5 +376,48 @@ if not df.empty:
     )
 
     st.plotly_chart(fig_scatter, use_container_width=True, theme="streamlit")
+
+    st.markdown("<hr style='border: 0.5px solid rgba(255,255,255,0.08); margin: 2rem 0;' />", unsafe_allow_html=True)
+
+    # --- SECCIÓN DE DISTRIBUCIÓN REGIONAL (VIOLIN PLOT) ---
+    st.markdown("<h3>📊 Distribución Regional del Bienestar</h3>", unsafe_allow_html=True)
+    st.write(f"El siguiente diagrama de violín desglosa la distribución estadística y densidad del **{selected_metric_lbl}** en las distintas regiones del planeta para el año **{selected_year}**.")
+
+    fig_violin = px.violin(
+        df_year,
+        y=selected_metric_col,
+        x="region",
+        color="region",
+        box=True, # Mostrar boxplot dentro
+        points="all", # Mostrar todos los puntos
+        hover_name="country",
+        labels={
+            selected_metric_col: selected_metric_lbl,
+            "region": "Región"
+        },
+        color_discrete_sequence=px.colors.qualitative.Safe
+    )
+
+    fig_violin.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(17, 24, 39, 0.3)',
+        margin=dict(l=40, r=40, t=20, b=40),
+        xaxis=dict(
+            gridcolor='rgba(255,255,255,0.05)',
+            title=dict(font=dict(size=14, color='#f3f4f6')),
+            tickfont=dict(color='#9ca3af')
+        ),
+        yaxis=dict(
+            gridcolor='rgba(255,255,255,0.05)',
+            zerolinecolor='rgba(255,255,255,0.1)',
+            title=dict(font=dict(size=14, color='#f3f4f6')),
+            tickfont=dict(color='#9ca3af')
+        ),
+        showlegend=False,
+        height=450
+    )
+
+    st.plotly_chart(fig_violin, use_container_width=True, theme="streamlit")
 else:
     st.warning("No hay datos disponibles para mostrar. Asegúrate de ejecutar el script ETL.")
+

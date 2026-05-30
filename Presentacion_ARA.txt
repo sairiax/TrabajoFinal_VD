@@ -1,0 +1,127 @@
+================================================================================
+GUION DE PRESENTACIÓN ACADÉMICA DE ALTO RENDIMIENTO (GRUPO ARA - 10/10)
+PROYECTO: DASHBOARD DE LA FELICIDAD MUNDIAL (2015-2023)
+================================================================================
+
+Este guion está estructurado de forma milimétrica para ajustarse al límite de tiempo estricto de 5 minutos (300 segundos) exigido por la rúbrica. Cada sección detalla la acción en pantalla, el texto hablado exacto y consejos de oratoria para transmitir máxima seguridad y excelencia.
+
+CONSEJO GENERAL DE DEFENSA: 
+* Practica la transición entre pestañas y páginas mientras hablas.
+* Graba el vídeo capturando la pantalla completa de la aplicación de Streamlit y, si es posible, tu webcam en una esquina para mayor dinamismo.
+
+--------------------------------------------------------------------------------
+CRONOGRAMA DE LA EXPOSICIÓN (Total: 5' 00")
+--------------------------------------------------------------------------------
+[00:00 - 00:35] Sec. 1: Introducción y Enfoque Multidimensional (35")
+[00:35 - 01:15] Sec. 2: Ingeniería de Datos y Proceso ETL Multi-Fuente (40")
+[01:15 - 02:15] Sec. 3: Análisis Geoespacial Avanzado: Globos 3D y Deltas (60")
+[02:15 - 03:00] Sec. 4: Distribuciones Estadísticas y Correlaciones (45")
+[03:00 - 04:10] Sec. 5: Diagnóstico Nacional y Comparador de Radar (70")
+[04:10 - 04:45] Sec. 6: Informe Integrado y Conclusiones Científicas (35")
+[04:45 - 05:00] Sec. 7: Cierre y Preguntas (15")
+
+================================================================================
+DESGLOSE PASO A PASO
+================================================================================
+
+--------------------------------------------------------------------------------
+SECCIÓN 1: INTRODUCCIÓN Y ENFOQUE MULTIDIMENSIONAL (00:00 - 00:35) | Duración: 35"
+--------------------------------------------------------------------------------
+* Acción Visual: 
+  * Iniciar el vídeo con la aplicación abierta en la página "Análisis Global".
+  * Mostrar el título de la página con el degradado cromático y el menú de navegación de la barra lateral.
+* Guion Hablado:
+  "Buenos días, mi nombre es Sergi Cortés Guerrero y hoy voy a presentarles mi proyecto final para la asignatura de Visualización de Datos, titulado 'Dashboard de la Felicidad Mundial 2015-2023'. 
+  
+  El objetivo principal de este trabajo es ir más allá del Producto Interior Bruto como métrica única del éxito de una nación, analizando el bienestar subjetivo a través de múltiples dimensiones del desarrollo humano. Para lograrlo, he desarrollado esta aplicación web altamente interactiva y premium utilizando Streamlit y Plotly, estructurada en tres páginas y con una estética oscura basada en tarjetas con efecto glassmorphism."
+* Consejo ARA: 
+  * Empieza con voz firme, clara y un tono profesional y entusiasta. Destaca la palabra "premium" y "longitudinal" desde el primer segundo.
+
+--------------------------------------------------------------------------------
+SECCIÓN 2: INGENIERÍA DE DATOS Y PROCESO ETL MULTI-FUENTE (00:35 - 01:15) | Duración: 40"
+--------------------------------------------------------------------------------
+* Acción Visual:
+  * Desplegar brevemente la barra lateral y pasar el ratón por encima del selector de métricas para mostrar que están unificadas.
+  * Mantener el mapa de fondo.
+* Guion Hablado:
+  "Uno de los puntos clave del proyecto es la calidad de los datos. Para cumplir con las máximas expectativas de la rúbrica, no he utilizado un dataset estático preexistente. He desarrollado un pipeline ETL automatizado en Python que descarga directamente los 9 informes históricos del World Happiness Report de 2015 a 2023. 
+  
+  Este ETL resuelve problemas de nomenclatura de variables, estandariza columnas y cruza los datos con la base de datos geográfica oficial ISO-3166. Tras unificar y corregir discrepancias para 74 países, logramos una matriz limpia de 1367 registros con cero valores nulos y georreferenciados al 100% mediante códigos ISO Alpha-3. Esto elimina cualquier laguna y nos permite agrupar y filtrar estadísticamente por regiones de la ONU."
+* Consejo ARA:
+  * Enfatiza las cifras: "1367 registros" y "cero valores nulos". Demuestra la complejidad matemática del ETL al estandarizar esquemas de datos tan dispares.
+
+--------------------------------------------------------------------------------
+SECCIÓN 3: ANÁLISIS GEOESPACIAL AVANZADO: GLOBOS 3D Y DELTAS (01:15 - 02:15) | Duración: 60"
+--------------------------------------------------------------------------------
+* Acción Visual:
+  * Ir a la barra lateral de "Parámetros del Mapa".
+  * Cambiar la Proyección del mapa de "Plano (Equirrectangular)" a "Globo 3D (Ortográfico)". 
+  * Rotar interactivamente el globo con el ratón en directo durante unos segundos y hacer hover sobre un par de países (ej. España y Finlandia) para mostrar el tooltip detallado.
+  * Cambiar a la pestaña "Variación Histórica (Delta)". Elegir como Año inicial "2015" y Año final "2023". Señalar los países de Europa del Este en verde y Venezuela en rojo intenso.
+* Guion Hablado:
+  "Para ofrecer un análisis geoespacial sobresaliente, he implementado dos técnicas de mapas interactivos que no se imparten en las clases tradicionales. 
+  
+  En primer lugar, he incorporado un selector de proyección que permite transformar el mapa plano clásico en un Globo Terrestre interactivo en 3D. Este globo permite rotar e inspeccionar de forma orgánica la distribución macro-regional del bienestar, destacando la concentración de la felicidad en el norte de Europa y Norteamérica.
+  
+  En segundo lugar, en la pestaña de 'Variación Histórica', el sistema calcula dinámicamente el cambio neto de felicidad entre dos períodos temporales. Al usar una escala de color divergente centrada en cero, detectamos al instante el éxito social de Europa del Este en verde brillante, y las zonas de colapso de bienestar en rojo intenso, como es el caso de Venezuela, que ha perdido más de dos puntos en esta última década."
+* Consejo ARA:
+  * Este es el momento estrella del vídeo. Mueve el globo de forma fluida y haz hover con calma sobre los tooltips para que se aprecie la riqueza de la información georreferenciada.
+
+--------------------------------------------------------------------------------
+SECCIÓN 4: DISTRIBUCIONES ESTADÍSTICAS Y CORRELACIONES (02:15 - 03:00) | Duración: 45"
+--------------------------------------------------------------------------------
+* Acción Visual:
+  * Hacer scroll hacia abajo para mostrar el Scatter Plot de correlación socioeconómica.
+  * Cambiar de variable en el eje X para demostrar la reactividad del widget.
+  * Hacer scroll hacia abajo para mostrar la sección del diagrama de violín ("Distribución Regional del Bienestar"). Pasar el ratón por encima del violín de Europa y del de África.
+* Guion Hablado:
+  "Si descendemos en la página, accedemos al análisis estadístico. El diagrama de dispersión interactivo nos permite cruzar variables dinámicamente y revela que el PIB y el apoyo social son los mayores propulsores de la felicidad, aunque evidencian rendimientos decrecientes conformes al desarrollo material.
+  
+  Para profundizar, he incorporado otra gráfica inédita en el temario: el diagrama de violín. Este nos permite ir más allá del promedio simple de barras y analizar la densidad de distribución de los datos. Podemos observar que Europa posee una distribución sumamente esbelta y concentrada en el rango superior, indicando baja desigualdad en felicidad, mientras que continentes como África muestran una alta dispersión y bimodalidad."
+* Consejo ARA:
+  * Explica conceptualmente qué muestra el violín: no solo medias, sino densidad y dispersión de felicidad regional. Esto demuestra tu madurez estadística frente al evaluador.
+
+--------------------------------------------------------------------------------
+SECCIÓN 5: DIAGNÓSTICO NACIONAL Y COMPARADOR DE RADAR (03:00 - 04:10) | Duración: 70"
+--------------------------------------------------------------------------------
+* Acción Visual:
+  * Ir al menú de navegación y hacer clic en la página "Análisis por País".
+  * El selector debe mostrar "Spain" como país por defecto. Mostrar los KPIs dinámicos de arriba.
+  * Mover el slider del año para ver cómo cambian las tres gráficas inferiores.
+  * Ir a la sección "Comparador Comparativo entre Países". Seleccionar un país de comparación (ej. "Finland" o "Sweden").
+  * Mostrar la pestaña del "Gráfico de Radar (Perfil)" y destacar el área poligonal que ocupa cada país. Pasar el ratón por los vértices del radar.
+  * Cambiar a la pestaña de "Gráfico de Barras" para mostrar el comparador tradicional de apoyo.
+* Guion Hablado:
+  "Pasando al 'Análisis por País', la aplicación nos permite examinar la evolución histórica de un país en particular mediante un suavizado temporal de media móvil de 2 años y el desglose apilado de sus factores.
+  
+  Para la comparación entre naciones, he integrado otra potente visualización avanzada no vista en el curso: el gráfico de radar polar. Al superponer las 6 dimensiones socioeconómicas principales de dos países, revelamos al instante sus diferencias estructurales. 
+  
+  Por ejemplo, al comparar España con Finlandia, se visualiza de inmediato que, aunque el PIB de ambos países es muy similar, el modelo nórdico de bienestar destaca y domina ampliamente en las esquinas de 'Apoyo Social' y, de forma masiva, en 'Confianza y percepción de baja corrupción'. Esto demuestra empíricamente que la honestidad institucional es un factor crítico de satisfacción de vida."
+* Consejo ARA:
+  * Destaca la capacidad interactiva de superponer polígonos. Mantén el cursor sobre los vértices del radar para que el evaluador aprecie los valores concretos de cada dimensión.
+
+--------------------------------------------------------------------------------
+SECCIÓN 6: MEMORIA TÉCNICA Y CONCLUSIONES CIENTÍFICAS (04:10 - 04:45) | Duración: 35"
+--------------------------------------------------------------------------------
+* Acción Visual:
+  * Mostrar brevemente el documento de la memoria académica "Memoria_Proyecto.md" en tu editor de código o abrir el PDF del informe para demostrar la entrega de una documentación formal y rigurosa.
+* Guion Hablado:
+  "Para asegurar la máxima calidad y rigor académico en la categoría de 'Informe', he redactado una memoria de investigación técnica y científica muy detallada en un documento independiente titulado 'Memoria_Proyecto.md'. 
+  
+  En él se detallan de forma estructurada el resumen ejecutivo, la metodología de datos y el pipeline ETL, los hallazgos analíticos de mapas y gráficas avanzadas y las conclusiones científicas. Entre los hallazgos principales, resalta empíricamente que el desarrollo subjetivo depende fundamentalmente de activos intangibles y de la erradicación del factor corrupción como freno estructural del bienestar social."
+* Consejo ARA:
+  * Resalta el nivel formal y la estructuración académica de la memoria escrita entregada en Poliformat, lo que demuestra un gran trabajo documental y de investigación científica más allá del desarrollo web.
+
+--------------------------------------------------------------------------------
+SECCIÓN 7: CIERRE Y PREGUNTAS (04:45 - 05:00) | Duración: 15"
+--------------------------------------------------------------------------------
+* Acción Visual:
+  * Regresar a la pantalla de inicio ("Análisis Global"). 
+  * Mantener el ratón quieto y mirar a la cámara si la usas.
+* Guion Hablado:
+  "Este proyecto demuestra cómo la ciencia de datos y las técnicas avanzadas de visualización pueden transformar cifras abstractas en herramientas analíticas interactivas para comprender y mejorar el bienestar social de las naciones. 
+  
+  Quedo a su entera disposición para responder a cualquier pregunta sobre la arquitectura técnica o los análisis. Muchas gracias por su atención."
+* Consejo ARA:
+  * Termina con una sonrisa y una frase contundente que resuma el impacto social y académico de tu trabajo. ¡El 10 está garantizado!
+================================================================================

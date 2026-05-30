@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import os
 
 # 1. Inyección de CSS personalizado para estética premium
@@ -12,6 +13,11 @@ def inject_custom_css():
         /* Modificar fuente de toda la aplicación */
         html, body, [class*="css"], [class*="st-"] {
             font-family: 'Outfit', sans-serif !important;
+        }
+        
+        /* Asegurar que los iconos de Streamlit no se vean afectados por el cambio de fuente */
+        .stIconMaterial, [data-testid="stIconMaterial"], [class*="st-Icon"], [class*="stIcon"] {
+            font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons' !important;
         }
         
         /* Título principal con degradado cromático */
@@ -373,7 +379,109 @@ if not df.empty:
                 ),
                 height=400
             )
-            st.plotly_chart(fig_compare, use_container_width=True, theme="streamlit")
+
+            # --- NUEVA GRÁFICA DE RADAR (SPIDER CHART) PARA COMPARACIÓN MULTIDIMENSIONAL ---
+            dimensions = ['gdp', 'social', 'health', 'freedom', 'generosity', 'trust']
+            dimension_names = ['PIB per Cápita', 'Apoyo Social', 'Esperanza de Vida', 'Libertad', 'Generosidad', 'Confianza']
+            
+            # Obtener valores máximos históricos en todo el dataset para normalizar en el rango [0, 1]
+            # Esto corrige la distorsión visual causada por las diferentes escalas de las métricas (ej. PIB vs Confianza).
+            max_values = {col: df[col].max() if df[col].max() > 0 else 1.0 for col in dimensions}
+            
+            val_a = [df_comp_a[col].values[0] for col in dimensions]
+            val_b = [df_comp_b[col].values[0] for col in dimensions]
+            
+            # Calcular valores normalizados
+            val_a_norm = [val_a[i] / max_values[dimensions[i]] for i in range(len(dimensions))]
+            val_b_norm = [val_b[i] / max_values[dimensions[i]] for i in range(len(dimensions))]
+            
+            # Para cerrar el loop del gráfico de radar en Plotly
+            val_a_close = val_a_norm + [val_a_norm[0]]
+            val_b_close = val_b_norm + [val_b_norm[0]]
+            dimension_names_close = dimension_names + [dimension_names[0]]
+            
+            # Textos informativos de alta calidad para el tooltip (hovertext)
+            hover_text_a = [
+                f"<b>{selected_country} - {dimension_names[i]}</b><br>"
+                f"Porcentaje del Máx Histórico: {val_a_norm[i]*100:.1f}%<br>"
+                f"Contribución Real Bruta: {val_a[i]:.3f}"
+                for i in range(len(dimensions))
+            ]
+            hover_text_b = [
+                f"<b>{selected_compare_country} - {dimension_names[i]}</b><br>"
+                f"Porcentaje del Máx Histórico: {val_b_norm[i]*100:.1f}%<br>"
+                f"Contribución Real Bruta: {val_b[i]:.3f}"
+                for i in range(len(dimensions))
+            ]
+            
+            hover_text_a_close = hover_text_a + [hover_text_a[0]]
+            hover_text_b_close = hover_text_b + [hover_text_b[0]]
+            
+            fig_radar = go.Figure()
+            
+            fig_radar.add_trace(go.Scatterpolar(
+                r=val_a_close,
+                theta=dimension_names_close,
+                fill='toself',
+                name=selected_country,
+                line_color='#6366f1',
+                fillcolor='rgba(99, 102, 241, 0.15)',
+                hovertext=hover_text_a_close,
+                hoverinfo="text"
+            ))
+            
+            fig_radar.add_trace(go.Scatterpolar(
+                r=val_b_close,
+                theta=dimension_names_close,
+                fill='toself',
+                name=selected_compare_country,
+                line_color='#10b981',
+                fillcolor='rgba(16, 185, 129, 0.15)',
+                hovertext=hover_text_b_close,
+                hoverinfo="text"
+            ))
+            
+            fig_radar.update_layout(
+                polar=dict(
+                    radialaxis=dict(
+                        visible=True,
+                        range=[0, 1.05],
+                        tickformat=".0%", # Mostrar escala de porcentaje en los ejes
+                        gridcolor='rgba(255, 255, 255, 0.08)',
+                        linecolor='rgba(255, 255, 255, 0.1)',
+                        tickfont=dict(color='#9ca3af')
+                    ),
+                    angularaxis=dict(
+                        gridcolor='rgba(255, 255, 255, 0.08)',
+                        linecolor='rgba(255, 255, 255, 0.1)',
+                        tickfont=dict(color='#cbd5e1')
+                    ),
+                    bgcolor='rgba(17, 24, 39, 0.3)'
+                ),
+                paper_bgcolor='rgba(0,0,0,0)',
+                plot_bgcolor='rgba(0,0,0,0)',
+                margin=dict(l=40, r=40, t=30, b=30),
+                legend=dict(
+                    orientation="h",
+                    yanchor="bottom",
+                    y=-0.18,
+                    xanchor="center",
+                    x=0.5,
+                    font=dict(color='#f3f4f6')
+                ),
+                height=450
+            )
+
+            # Renderizado de pestañas comparativas
+            tab_comp1, tab_comp2 = st.tabs(["🕸️ Perfil Multidimensional Normalizado (Radar)", "📊 Magnitudes Comparadas Reales (Barras)"])
+            
+            with tab_comp1:
+                st.markdown(f"<p style='color: #9ca3af; font-size: 0.95rem; margin-bottom: 1rem;'>El gráfico de radar superpone los perfiles multidimensionales normalizados (donde 100% representa el valor máximo histórico registrado en todo el conjunto de datos para cada factor). Esto permite evaluar fortalezas y debilidades relativas de forma equilibrada y comparable.</p>", unsafe_allow_html=True)
+                st.plotly_chart(fig_radar, use_container_width=True, theme="streamlit")
+                
+            with tab_comp2:
+                st.markdown(f"<p style='color: #9ca3af; font-size: 0.95rem; margin-bottom: 1rem;'>Visualización de magnitudes de contribución reales y absolutas en un diagrama de barras agrupadas.</p>", unsafe_allow_html=True)
+                st.plotly_chart(fig_compare, use_container_width=True, theme="streamlit")
         else:
             st.info(f"No hay datos registrados de {selected_compare_country} para el año {selected_year}.")
 
