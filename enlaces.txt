@@ -1,0 +1,10 @@
+Enlaces de entrega de la Tarea Final - Proyecto Académico
+Asignatura: Visualización de datos
+
+1. Enlace al vídeo de presentación en Media UPV (Público, ~5 min):
+   [Introduce aquí el enlace de media.upv.es]
+   Ejemplo: https://media.upv.es/player/?id=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+
+2. Enlace a la aplicación web desplegada en Streamlit Cloud (Acceso público sin contraseña):
+   [Introduce aquí el enlace de tu aplicación en streamlit.app]
+   Ejemplo: https://felicidad-mundial-dashboard.streamlit.app

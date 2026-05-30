@@ -1,0 +1,237 @@
+Unidad 5b : Visualización en web II
+Uso de variables de entorno y sesión
+Ficheros de configuración
+Streamlit Cloud
+Depurar app
+Ejemplos
+
+Uso de variables de entorno y sesión
+ El uso de variables de entorno hace las
+
+aplicaciones más robustas y compatibles
+ Por ejemplo, puedes definir en el sistema la
+ruta en la que se almacenan los datos:
+ PARO_DATA_PATH = "../Datos/“
+
+ Y después leerla en la aplicación:
+import os
+PATH_DATOS = os.environ.get("PARO_DATA_PATH", "../Datos/")
+2
+
+Uso de variables de entorno y sesión
+ Como se ha comentado el script se re-ejecuta
+
+de en cada interacción
+ Si no se gestiona el estado, la app no recuerda
+la información de usuario
+ Con st.sesión_state podemos guardar el valor
+de variables entre ejecuciones
+ Resulta útil para filtros, selecciones, resultados
+intermedios, etc.
+3
+
+Uso de variables de entorno y sesión
+ Por ejemplo, si queremos guardar la provincia
+
+seleccionada:
+
+if "prov_code" not in st.session_state:
+st.session_state["prov_code"] = "00“
+
+ Vamos a ver como modificamos el Ejemplo4.py
+
+utilizando variables de sesión
+ También utilizamos la caché para ahorrar
+lecturas de fichero
+
+4
+
+Uso de variables de entorno y sesión
+ Si no existe la variable usamos una por defecto
+if "prov_code" not in st.session_state:
+st.session_state["prov_code"] = prov_data["codigo"].iloc[0]
+
+ Si cambia, modificamos el valor almacenado
+if clicked_code:
+st.session_state["prov_code"] = clicked_code
+
+Ejemplo5.py
+https://docs.streamlit.io/develop/apireference/caching-and-state
+5
+
+Ficheros de configuración
+ Además de todo lo expuesto streamlit es
+
+completamente configurable a través de
+parámetros o de fichero de configuración
+ Se puede cambiar el aspecto con Temas
+ Fichero config.toml almacenado en la carpeta
+.streamlit en la raíz del proyecto
+
+6
+
+Ficheros de configuración
+[server]
+runOnSave = true
+headless = true
+[theme]
+base = "light"
+primaryColor = "#006494"
+font = "sans serif“
+https://docs.streamlit.io/develop/apireference/configuration/config.toml#theme
+7
+
+Streamlit Cloud
+ Servicio gratuito de streamlit para desplegar apps
+
+directamente desde github
+ Tienes que crearte una cuenta
+ Puedes vincular las cuentas de streamlit y github
+
+
+https://docs.streamlit.io/streamlit-community-cloud/get-started
+
+ Puedes subir tu app y configurar la url
+ Si utilizas librerías adicionales debes incluir un
+
+fichero de configuración:
+
+ https://pip.pypa.io/en/stable/user_guide/#requirements-files
+8
+
+Streamlit Cloud
+ Estructura mínima:
+ Uno o varios scripts: app.py (streamlit_app.py) o lo
+
+llamas como quieras
+ Fichero requirements.txt: contiene todas las
+dependencias, librerías necesarias para la ejecución
+ Ficheros de datos
+ Subir a un repositorio de GitHub
+ Incluir .streamlit/config.toml (si lo usas)
+9
+
+Streamlit Cloud
+ Desde la web de Streamlit:
+ Create app
+ Deploy a public app from Github
+ Seleccionar repo, rama y ruta del archivo principal
+ Darle un nombre
+
+10
+
+Streamlit Cloud
+ Configurar secrets / variables de entorno en la
+
+pestaña “Secrets” para cosas como
+PARO_DATA_PATH o claves API
+
+11
+
+Depurar app
+ Para depurar una app de streamlit con VS Code:
+ Crea este fichero: .vscode/launch.json
+
+{"version": "0.2.0",
+"configurations": [ {
+"name": "Debug Streamlit",
+"type": "debugpy",
+"request": "launch",
+"module": "streamlit",
+"args": ["run", "${file}", "--server.runOnSave=false"],
+"console": "integratedTerminal",
+"justMyCode": true}]
+}
+12
+
+Depurar app
+ Abre en VS Code el fichero principal de tu app
+ Pon un breakpoint haciendo clic a la izquierda
+
+del número de línea
+ Ve a Run and Debug: using launch.json
+ Se abrirá Streamlit en el navegador
+ Interactúa con la app hasta que llegue a la
+línea marcada
+
+13
+
+Depurar app
+ Durante la depuración aparecen los valores de
+
+las variables
+
+ En la consola de Debug también puedes
+
+interactuar
+
+ Ventana con las variables:
+14
+
+Ejemplos
+
+
+Mapa de estaciones de servicio con los precios de combustibles, codificadas
+por colores según precio
+
+
+Utiliza ubicación:
+
+from streamlit_js_eval import streamlit_js_eval, get_geolocation
+posEval = myPosition()
+…
+location = None
+radio = 5
+if posEval:
+location = get_geolocation()
+…
+
+bb =
+get_buffer_box_geopandas([location.get('coords').get('latitude’),
+location.get('coords').get('longitude')],radio)
+gdfSel = gdf.cx[bb[0]:bb[2], bb[1]:bb[3]]
+https://mapagasolineras.streamlit.app/
+https://github.com/jlluch/MapaPrecioCarburantes
+
+15
+
+Ejemplos
+
+
+Datos de todas las temporadas de Valencia Basket: pages.toml
+
+[[pages]]
+path = "VBCpages/1_ACB.py"
+name = "Liga ACB"
+icon = "🏀🏀"
+[[pages]]
+path = "VBCpages/2_Eurocup.py"
+name = "Eurocup"
+icon = "🏀🏀“
+…
+from st_pages import get_nav_from_toml
+…
+#Configurar páginas
+nav = get_nav_from_toml(path=".streamlit/pages.toml")
+# Crea la navegación
+pg = st.navigation(nav)
+https://vbcstats.streamlit.app/
+https://github.com/jlluch/VBCstats
+
+16
+
+Ejemplos
+ Ejemplos de otros años:
+https://labormarketspain.streamlit.app/
+https://github.com/anagutierr/dashboard_LaborMarketSpain
+https://media.upv.es/player/?id=031f93e0-4393-11f0-bd11-0d5caffff617
+https://vd-app-amarmar4.streamlit.app/
+https://github.com/adrimrtnz/vd-streamlit-app
+https://media.upv.es/player/?id=10484f40-4860-11f0-8d2b-0d5de82e5488
+https://conflictos-historicos.streamlit.app/
+https://github.com/jdsanroj/analisis-conflictos-historicos
+https://media.upv.es/player/?id=e0ac8a00-4713-11f0-9300-1305799652b0
+
+17
+
+
