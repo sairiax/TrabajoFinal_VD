@@ -171,7 +171,7 @@ if not df.empty:
             """, unsafe_allow_html=True)
 
         # --- 1. GRÁFICA DE LÍNEA: EVOLUCIÓN HISTÓRICA CON ROLLING MEAN ---
-        st.markdown(f"<h3>📈 Evolución Temporal del Puntaje de Felicidad: {selected_country}</h3>", unsafe_allow_html=True)
+        st.markdown(f"<h3>Evolución Temporal del Puntaje de Felicidad: {selected_country}</h3>", unsafe_allow_html=True)
         
         # Calcular media móvil (Rolling Mean) de 2 años en Streamlit para suavizar la tendencia
         df_country['rolling_score'] = df_country['score'].rolling(window=2, min_periods=1).mean()
@@ -239,7 +239,7 @@ if not df.empty:
         st.markdown("<hr style='border: 0.5px solid rgba(255,255,255,0.08); margin: 2rem 0;' />", unsafe_allow_html=True)
 
         # --- 2. GRÁFICA DE BARRAS APILADAS: DESGLOSE DE FACTORES DE FELICIDAD ---
-        st.markdown(f"<h3>🥞 Desglose de Contribución por Factores ({selected_year})</h3>", unsafe_allow_html=True)
+        st.markdown(f"<h3>Desglose de Contribución por Factores ({selected_year})</h3>", unsafe_allow_html=True)
         st.write("El puntaje total de felicidad es la suma de los valores explicados por el PIB, Apoyo Social, Salud, Libertad, Generosidad y Confianza, más el residuo de la Distopía (un país hipotético con la felicidad más baja del mundo en cada dimensión).")
         
         # Organizar factores para el gráfico
@@ -305,7 +305,7 @@ if not df.empty:
         st.markdown("<hr style='border: 0.5px solid rgba(255,255,255,0.08); margin: 2.5rem 0;' />", unsafe_allow_html=True)
 
         # --- 3. COMPARATIVA LADO A LADO ENTRE DOS PAÍSES (GRÁFICA DE BARRAS AGRUPADAS) ---
-        st.markdown("<h3>⚖️ Comparador Comparativo entre Países</h3>", unsafe_allow_html=True)
+        st.markdown("<h3>Comparador Comparativo entre Países</h3>", unsafe_allow_html=True)
         
         # Eliminar el país principal de la lista para la comparación
         compare_country_list = [c for c in country_list if c != selected_country]
@@ -473,7 +473,7 @@ if not df.empty:
             )
 
             # Renderizado de pestañas comparativas
-            tab_comp1, tab_comp2 = st.tabs(["🕸️ Perfil Multidimensional Normalizado (Radar)", "📊 Magnitudes Comparadas Reales (Barras)"])
+            tab_comp1, tab_comp2 = st.tabs(["Perfil Multidimensional Normalizado (Radar)", "Magnitudes Comparadas Reales (Barras)"])
             
             with tab_comp1:
                 st.markdown(f"<p style='color: #9ca3af; font-size: 0.95rem; margin-bottom: 1rem;'>El gráfico de radar superpone los perfiles multidimensionales normalizados (donde 100% representa el valor máximo histórico registrado en todo el conjunto de datos para cada factor). Esto permite evaluar fortalezas y debilidades relativas de forma equilibrada y comparable.</p>", unsafe_allow_html=True)

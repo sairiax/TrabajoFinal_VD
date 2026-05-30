@@ -14,7 +14,7 @@ dir_path = pathlib.Path(__file__).parent
 
 # Definir las páginas estructuradas como diccionario para habilitar cabeceras de sección nativas
 pages = {
-    "🌍 Menú de Navegación": [
+    "Menú de Navegación": [
         st.Page(
             dir_path / "pages" / "global_analysis.py",
             title="Análisis Global",

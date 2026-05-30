@@ -186,9 +186,9 @@ if not df.empty:
         """, unsafe_allow_html=True)
 
     # --- MAPA DE COROPLETAS CON TABS ---
-    st.markdown("<h3 style='margin-top: 1.5rem; margin-bottom: 0.5rem;'>🗺️ Visualización de Mapas Interactivos</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='margin-top: 1.5rem; margin-bottom: 0.5rem;'> Visualización de Mapas Interactivos</h3>", unsafe_allow_html=True)
     
-    tab_map1, tab_map2 = st.tabs(["🌍 Estado Actual", "📈 Variación Histórica (Delta)"])
+    tab_map1, tab_map2 = st.tabs(["Estado Actual", "Variación Histórica (Delta)"])
     
     with tab_map1:
         st.markdown(f"<p style='color: #9ca3af; font-size: 0.95rem; margin-bottom: 1rem;'>Visualización interactiva de <b>{selected_metric_lbl}</b> en el año <b>{selected_year}</b>. Puedes interactuar directamente con el mapa para ver los detalles.</p>", unsafe_allow_html=True)
@@ -307,7 +307,7 @@ if not df.empty:
     st.markdown("<hr style='border: 0.5px solid rgba(255,255,255,0.08); margin: 2rem 0;' />", unsafe_allow_html=True)
 
     # --- SECCIÓN DE ANÁLISIS DE CORRELACIÓN (SCATTER PLOT) ---
-    st.markdown("<h3>🔍 Análisis de Correlación Socioeconómica</h3>", unsafe_allow_html=True)
+    st.markdown("<h3>Análisis de Correlación Socioeconómica</h3>", unsafe_allow_html=True)
     
     # Widgets de control para el Scatter Plot colocados en columnas
     s_col1, s_col2 = st.columns(2)
@@ -380,7 +380,7 @@ if not df.empty:
     st.markdown("<hr style='border: 0.5px solid rgba(255,255,255,0.08); margin: 2rem 0;' />", unsafe_allow_html=True)
 
     # --- SECCIÓN DE DISTRIBUCIÓN REGIONAL (VIOLIN PLOT) ---
-    st.markdown("<h3>📊 Distribución Regional del Bienestar</h3>", unsafe_allow_html=True)
+    st.markdown("<h3>Distribución Regional del Bienestar</h3>", unsafe_allow_html=True)
     st.write(f"El siguiente diagrama de violín desglosa la distribución estadística y densidad del **{selected_metric_lbl}** en las distintas regiones del planeta para el año **{selected_year}**.")
 
     fig_violin = px.violin(
