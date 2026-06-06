@@ -1,0 +1,8 @@
+Enlaces de entrega de la Tarea Final - Proyecto Académico
+Asignatura: Visualización de datos
+
+1. Enlace al vídeo de presentación en Media UPV (Público, ~5 min):
+https://media.upv.es/player/?id=085deef0-602b-11f1-aa97-8b1f82d0e744
+
+2. Enlace a la aplicación web desplegada en Streamlit Cloud (Acceso público sin contraseña):
+https://trabajofinalvd-y8tid3r34623swfzmbmq5q.streamlit.app/

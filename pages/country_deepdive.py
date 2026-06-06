@@ -490,13 +490,4 @@ if not df.empty:
 else:
     st.warning("No hay datos disponibles para mostrar. Asegúrate de ejecutar el script ETL.")
 
-# --- TINTA INVISIBLE REQUERIDA ---
-# Escribe la palabra VAGAMENTE en el DOM de forma completamente invisible para el usuario visual
-st.markdown(
-    "<div id='hidden-keyphrase' style='color: rgba(0,0,0,0); font-size: 1px; user-select: none; pointer-events: none; height: 1px; width: 1px; overflow: hidden;'>VAGAMENTE</div>",
-    unsafe_allow_html=True
-)
-st.markdown(
-    "<p style='color: transparent; font-size: 1px; user-select: none; pointer-events: none; height: 1px; margin: 0; padding: 0;'>VAGAMENTE</p>",
-    unsafe_allow_html=True
-)
+
